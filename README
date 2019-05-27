@@ -1,0 +1,47 @@
+Poke store
+===========================================================================
+
+The language chosen is golang due to its simplicity when it comes to
+handle concurrent operations.
+
+The protocol is neither HTTP nor websocket. Both are widely used
+nowadays; RESTful APIs are everywhere to provide a consistent interface
+for resources, as well as are websockets to create apps under http/s with
+reactiveness in mind. And, to be honest, I always wanted to roll down my own
+toy protocol, so was it born: BTP! The basket-transport-protocol. It does not
+adhere to any RFC but it quite remind us HTTP. It parses and implements
+support for 4 verbs: CREATE, ADD, CHECKOUT and DROP.
+
+The pattern employed to calculate discounts for baskets looks like
+Entity-Component-Systems to some grade. Systems are just objects that
+can be initialised to apply over a item type in particular with reusability
+in mind (and also defining the "family" of item types to work with). Later
+on, systems operate over a list of entities (baskets). Those baskets different
+from the configured item type are discarded, and the remaining ones will be
+kept to calculate the corresponding discount.
+
+The client/server architecture consists only in plain TCP sockets. All clients
+can operate over all baskets (on the contrary to my first implementation, where
+clients there are own baskets... a rather uninteresting approach in regards to
+concurrency) and successful operations on those will be sent to other clients
+connected on the same store.
+
+Along with this project there are a couple of bash scripts to compile and run
+both the server and the client programs. No Dockerfile/Podfile attached, just
+a humble vgo!
+
+Things left unimplemented:
+
+- Better log tracing.
+- Rate limiting. As of now, clients can connect infinitely (or until the
+  server dies).
+- If a client detects server failure, implement a retry system, or inform
+  the user somehow at least.
+- Baskets primary keys consist on the sole basket name. I thought that
+  employing uuid for this task would be a good idea, but it somehow seemed
+  out of the scope of this challenge.
+- I would have liked the Client UI to keep an updated list of available baskets
+  or provide a LIST verb to retrieve baskets and display them on a dropdown
+  instead of raw text input fields, and thus improving UX.
+- More tests: The systems and the protocol carry a good number of test suites.
+  However, that is not the case for client/server interaction.
