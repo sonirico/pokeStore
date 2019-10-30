@@ -4,6 +4,8 @@ import "pokeStore/constants"
 
 type ItemType string
 
+type ItemPrice float32
+
 const (
 	REPELENTE    ItemType = constants.REPELENTE
 	CARAMELORARO          = constants.CARAMELORARO
@@ -16,13 +18,13 @@ var itemTypeRegistry = map[string]ItemType{
 	constants.SPORTS:       SPORTS,
 }
 
-var prices = map[ItemType]float32{
+var prices = map[ItemType]ItemPrice{
 	REPELENTE:    5,
 	CARAMELORARO: 20,
 	SPORTS:       7.5,
 }
 
-func GetItemPrice(it ItemType) float32 {
+func GetItemPrice(it ItemType) ItemPrice {
 	if price, ok := prices[it]; ok {
 		return price
 	}
@@ -39,29 +41,38 @@ func GetItemByType(raw string) (ItemType, bool) {
 
 type Basket struct {
 	Id    string
-	Items map[ItemType]int
+	items map[ItemType]int
 }
 
 func NewBasket(newId string) *Basket {
 	return &Basket{
 		Id:    newId,
-		Items: make(map[ItemType]int),
+		items: make(map[ItemType]int),
 	}
 }
 
 func (b *Basket) AddItem(it ItemType, amount int) {
-	b.Items[it] += amount
+	b.items[it] += amount
 }
 
-func (b *Basket) GetItems() map[ItemType]int {
-	return b.Items
+func (b *Basket) GetItemCount(it ItemType) int {
+	if count, ok := b.items[it]; ok {
+		return count
+	}
+	return 0
+}
+
+func (b *Basket) GetTotal() float32 {
+	var result float32
+	for itemType, itemCount := range b.items {
+		result += float32(itemCount) * float32(GetItemPrice(itemType))
+	}
+	return result
 }
 
 func (b *Basket) RemoveItem(it ItemType, amount int) {
-	b.Items[it] -= amount
-	if b.Items[it] < 1 {
-		b.Items[it] = 0
+	b.items[it] -= amount
+	if b.items[it] < 1 {
+		b.items[it] = 0
 	}
 }
-
-func (b *Basket) Remove() {}

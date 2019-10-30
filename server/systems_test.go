@@ -33,7 +33,7 @@ func TestMarketingDiscountSystem(t *testing.T) {
 	tests := []SystemTest{
 		{
 			basket: &Basket{
-				Items: map[ItemType]int{
+				items: map[ItemType]int{
 					REPELENTE: 2,
 				},
 			},
@@ -42,7 +42,7 @@ func TestMarketingDiscountSystem(t *testing.T) {
 		},
 		{
 			basket: &Basket{
-				Items: map[ItemType]int{
+				items: map[ItemType]int{
 					REPELENTE: 1,
 				},
 			},
@@ -51,7 +51,7 @@ func TestMarketingDiscountSystem(t *testing.T) {
 		},
 		{
 			basket: &Basket{
-				Items: map[ItemType]int{
+				items: map[ItemType]int{
 					REPELENTE: 0,
 				},
 			},
@@ -60,7 +60,7 @@ func TestMarketingDiscountSystem(t *testing.T) {
 		},
 		{
 			basket: &Basket{
-				Items: map[ItemType]int{
+				items: map[ItemType]int{
 					REPELENTE: 4,
 				},
 			},
@@ -69,7 +69,7 @@ func TestMarketingDiscountSystem(t *testing.T) {
 		},
 		{
 			basket: &Basket{
-				Items: map[ItemType]int{
+				items: map[ItemType]int{
 					REPELENTE: 5,
 				},
 			},
@@ -79,7 +79,7 @@ func TestMarketingDiscountSystem(t *testing.T) {
 		// Only affects REPELENTE items
 		{
 			basket: &Basket{
-				Items: map[ItemType]int{
+				items: map[ItemType]int{
 					SPORTS: 10,
 				},
 			},
@@ -89,7 +89,7 @@ func TestMarketingDiscountSystem(t *testing.T) {
 		// Only affects REPELENTE items
 		{
 			basket: &Basket{
-				Items: map[ItemType]int{
+				items: map[ItemType]int{
 					CARAMELORARO: 10,
 				},
 			},
@@ -108,7 +108,7 @@ func TestCFODiscountSystem(t *testing.T) {
 	tests := []SystemTest{
 		{
 			basket: &Basket{
-				Items: map[ItemType]int{
+				items: map[ItemType]int{
 					CARAMELORARO: 1,
 				},
 			},
@@ -117,7 +117,7 @@ func TestCFODiscountSystem(t *testing.T) {
 		},
 		{
 			basket: &Basket{
-				Items: map[ItemType]int{
+				items: map[ItemType]int{
 					CARAMELORARO: 2,
 				},
 			},
@@ -126,7 +126,7 @@ func TestCFODiscountSystem(t *testing.T) {
 		},
 		{
 			basket: &Basket{
-				Items: map[ItemType]int{
+				items: map[ItemType]int{
 					CARAMELORARO: 3,
 				},
 			},
@@ -135,7 +135,7 @@ func TestCFODiscountSystem(t *testing.T) {
 		},
 		{
 			basket: &Basket{
-				Items: map[ItemType]int{
+				items: map[ItemType]int{
 					CARAMELORARO: 4,
 				},
 			},
@@ -144,7 +144,7 @@ func TestCFODiscountSystem(t *testing.T) {
 		},
 		{
 			basket: &Basket{
-				Items: map[ItemType]int{
+				items: map[ItemType]int{
 					CARAMELORARO: 10,
 				},
 			},
@@ -154,7 +154,7 @@ func TestCFODiscountSystem(t *testing.T) {
 		// Only affects CARAMELORAROS items
 		{
 			basket: &Basket{
-				Items: map[ItemType]int{
+				items: map[ItemType]int{
 					SPORTS: 10,
 				},
 			},
@@ -164,7 +164,7 @@ func TestCFODiscountSystem(t *testing.T) {
 		// Only affects CARAMELORAROS items
 		{
 			basket: &Basket{
-				Items: map[ItemType]int{
+				items: map[ItemType]int{
 					REPELENTE: 10,
 				},
 			},

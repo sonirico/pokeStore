@@ -18,12 +18,11 @@ func NewMarketingDiscountSystem(tt ItemType) *MarketingDiscountSystem {
 }
 
 func (m *MarketingDiscountSystem) applyDiscount(basket Basket) float32 {
-	allItemsCount := basket.GetItems()
-	if itemCount, ok := allItemsCount[m.targetType]; ok {
-		if itemCount < 2 {
+	if count := basket.GetItemCount(m.targetType); count > 0 {
+		if count < 2 {
 			return 0
 		}
-		return float32(itemCount/2) * GetItemPrice(m.targetType)
+		return float32(count/2) * float32(GetItemPrice(m.targetType))
 	}
 	return 0
 }
@@ -44,13 +43,12 @@ func NewCFODiscountSystem(tt ItemType, discount float32) *CFODiscountSystem {
 }
 
 func (s *CFODiscountSystem) applyDiscount(basket Basket) float32 {
-	allItemsCount := basket.GetItems()
-	if itemCount, ok := allItemsCount[s.targetType]; ok {
-		if itemCount < 3 {
+	if count := basket.GetItemCount(s.targetType); count > 0 {
+		if count < 3 {
 			return 0.0
 		}
-		itemPrice := GetItemPrice(s.targetType)
-		return (itemPrice - s.priceIfDiscount) * float32(itemCount)
+		itemPrice := float32(GetItemPrice(s.targetType))
+		return (itemPrice - s.priceIfDiscount) * float32(count)
 	}
 	return 0.0
 }
@@ -64,12 +62,7 @@ func (c *CheckOutSystem) RegisterDiscount(d DiscountSystem) {
 }
 
 func (c *CheckOutSystem) CheckOut(basket Basket) (float32, float32) {
-	var total float32 = 0.0
-
-	for itemType, itemCount := range basket.GetItems() {
-		total += GetItemPrice(itemType) * float32(itemCount)
-	}
-
+	total := basket.GetTotal()
 	var totalDiscount float32 = 0.0
 
 	for _, system := range c.discountSystems {
