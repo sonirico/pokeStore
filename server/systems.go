@@ -18,19 +18,14 @@ func NewMarketingDiscountSystem(tt ItemType) *MarketingDiscountSystem {
 }
 
 func (m *MarketingDiscountSystem) applyDiscount(basket Basket) float32 {
-	var result float32
-	for itemType, itemCount := range basket.GetItems() {
-		if itemType == m.targetType {
-			itemPrice := GetItemPrice(itemType)
-			if itemCount < 2 {
-				result = 0
-			} else {
-				result = float32(itemCount/2) * itemPrice
-			}
-			break
+	allItemsCount := basket.GetItems()
+	if itemCount, ok := allItemsCount[m.targetType]; ok {
+		if itemCount < 2 {
+			return 0
 		}
+		return float32(itemCount/2) * GetItemPrice(m.targetType)
 	}
-	return result
+	return 0
 }
 
 type CFODiscountSystem struct {
@@ -49,14 +44,13 @@ func NewCFODiscountSystem(tt ItemType, discount float32) *CFODiscountSystem {
 }
 
 func (s *CFODiscountSystem) applyDiscount(basket Basket) float32 {
-	for itemType, itemCount := range basket.GetItems() {
-		if itemType == s.targetType {
-			if itemCount < 3 {
-				return 0.0
-			}
-			itemPrice := GetItemPrice(itemType)
-			return (itemPrice - s.priceIfDiscount) * float32(itemCount)
+	allItemsCount := basket.GetItems()
+	if itemCount, ok := allItemsCount[s.targetType]; ok {
+		if itemCount < 3 {
+			return 0.0
 		}
+		itemPrice := GetItemPrice(s.targetType)
+		return (itemPrice - s.priceIfDiscount) * float32(itemCount)
 	}
 	return 0.0
 }
