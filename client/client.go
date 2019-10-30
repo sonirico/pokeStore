@@ -25,10 +25,6 @@ func NewClient(conn net.Conn) *Client {
 	}
 }
 
-func (c *Client) GetSocket() net.Conn {
-	return c.socket
-}
-
 func (c *Client) Exit() {
 	err := c.socket.Close()
 	if err != nil {

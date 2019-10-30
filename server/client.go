@@ -32,10 +32,6 @@ func NewClient(id uint64, conn net.Conn, store *Store) *Client {
 	}
 }
 
-func (c *Client) GetSocket() net.Conn {
-	return c.socket
-}
-
 func (c *Client) Join() {
 	c.store.Join <- c
 }

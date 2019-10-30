@@ -8,10 +8,6 @@ import (
 )
 
 func worker(client *Client) {
-	// TODO: Log real time events
-	//fmt.Println(fmt.Sprintf("Serving client{%d}%s\n", client.Id,
-	//	client.GetSocket().RemoteAddr().String()))
-	//
 	client.Join()
 	defer func() { client.Leave() }()
 	go client.Write()
